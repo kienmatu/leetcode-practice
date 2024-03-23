@@ -2,6 +2,8 @@ package practices
 
 import "strings"
 
+// https://leetcode.com/problems/letter-combinations-of-a-phone-number/description/
+// medium
 func LetterCombinations(digits string) []string {
 	letters := map[string][]string{
 		"2": {"a", "b", "c"},
@@ -18,26 +20,23 @@ func LetterCombinations(digits string) []string {
 		return []string{}
 	}
 
-	if len(digits) == 1 {
-		return letters[digits]
-	}
-
 	queue := []string{""}
 	res := []string{}
 
 	for len(queue) > 0 {
 		comb := queue[0]
-		queue = queue[1:]
+		queue = queue[1:] // dequeue
 
 		if len(comb) == len(digits) {
 			res = append(res, comb)
 		} else {
 			curDigit := strings.Split(digits, "")[len(comb)]
 
-			for _, v := range letters[curDigit] {
-				queue = append(queue, comb+v)
+			for _, char := range letters[curDigit] {
+				queue = append(queue, comb+char)
 			}
 		}
+
 	}
 
 	return res
