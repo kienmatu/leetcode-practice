@@ -1,17 +1,30 @@
 package main
 
 import (
-	"fmt"
+	"time"
 
-	"github.com/kienmatu/go-practice/practices"
+	"github.com/gin-gonic/gin"
 )
 
 func main() {
-	res := practices.LetterCombinations("23")
-	fmt.Printf("%s \n", res)
+	r := gin.Default()
 
-	res2 := practices.LengthOfLIS([]int{
-		10, 9, 2, 5, 3, 7, 101, 18,
+	// Create a semaphore with a buffer of 10
+	semaphore := make(chan struct{}, 10)
+
+	r.POST("/send_email", func(c *gin.Context) {
+		// Acquire a semaphore token
+		semaphore <- struct{}{}
+		defer func() {
+			// Release the semaphore token
+			<-semaphore
+		}()
+
+		// Simulate sending email (replace with your actual logic)
+		time.Sleep(300 * time.Millisecond)
+
+		c.JSON(200, gin.H{"message": "Email sent successfully"})
 	})
-	fmt.Println(res2)
+
+	r.Run(":8080")
 }
