@@ -27,7 +27,6 @@ func dp(i, j int, xArr, yArr []string) bool {
 	if i == len(xArr) {
 		return false
 	}
-
 	if xArr[i] == yArr[j] {
 		return dp(i+1, j+1, xArr, yArr)
 	} else {
